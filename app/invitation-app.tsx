@@ -182,7 +182,7 @@ export default function InvitationApp() {
                 <div className="mx-auto max-w-xl text-center">
                   <EmojiBadge>🐶</EmojiBadge>
                   <h1 className="mt-6 text-4xl font-black tracking-tight text-rose-950 dark:text-rose-50 sm:text-6xl">¿Te gustaría salir conmigo?</h1>
-                  <p className="mx-auto mt-4 max-w-md text-base leading-7 text-amber-800 dark:text-orange-100 sm:text-lg">Prometo una salida con buen humor, comentarios innecesarios y energía de perrito que vio una pelota.</p>
+                  <p className="mx-auto mt-4 max-w-md text-base leading-7 text-amber-800 dark:text-orange-100 sm:text-lg">Prometo una salida con buen humor, comentarios innecesarios y que la vamos a pasar bien.</p>
                   <motion.p animate={{ scale: [1, 1.04, 1] }} className="mt-7 min-h-7 text-sm font-bold text-red-400 sm:text-base">
                     {funnyMessage}
                   </motion.p>
@@ -246,7 +246,7 @@ export default function InvitationApp() {
                 <Card>
                   <EmojiBadge>🎲</EmojiBadge>
                   <h2 className="mt-6 text-center text-3xl font-black sm:text-5xl">Primero elegí el caos</h2>
-                  <p className="mx-auto mt-3 max-w-lg text-center text-amber-800 dark:text-orange-100">Según el plan, aparecen opciones distintas. Tecnología de punta y un perro administrativo.</p>
+                  <p className="mx-auto mt-3 max-w-lg text-center text-amber-800 dark:text-orange-100">Según el plan, aparecen opciones distintas.</p>
                   <OptionGrid options={planOptions} selected={data.plan ? [data.plan] : []} onSelect={(option) => updateData({ plan: option, food: [] })} />
                   <PrimaryButton disabled={!data.plan} onClick={nextStep}>Continuar</PrimaryButton>
                 </Card>
