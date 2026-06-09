@@ -14,16 +14,26 @@ type InvitationData = {
 };
 
 const funnyMessages = [
-  "No tan rápido 😏",
-  "Pensalo otra vez ❤️",
-  "¿Segura? 🥺",
-  "Yo creo que querés poner Sí 😌",
+  "El gato acaba de bloquear esa opción 🐈",
+  "No tan rápido, firulais está mirando 🐶",
+  "¿Segura? Hay un michi decepcionado 🥺",
+  "El botón No se fue a comprar churros 😌",
 ];
 
-const foodOptions = ["🍕 Pizza", "🍔 Hamburguesas", "🍣 Sushi", "🌮 Tacos", "🍝 Pastas", "🍜 Ramen", "🥩 Parrilla", "🥗 Algo liviano"];
-const planOptions = ["🎥 Cine", "☕ Merienda", "🍷 Cena", "🌅 Paseo", "🎳 Bowling", "🎮 Arcade", "🎤 Karaoke", "🎨 Sorpresa"];
+const planOptions = ["🎥 Cine modo crítica", "☕ Merienda chismosa", "🌅 Paseo con cara de turistas", "🎳 Bowling sin dignidad", "🎮 Arcade competitivo", "🎤 Karaoke vergonzoso", "🎨 Sorpresa absurda", "🐾 Plan con mascotas"];
 
-const stepTitles = ["Invitación", "Celebración", "Fecha", "Comida", "Plan", "Detalle", "Cita"];
+const planFoodOptions: Record<string, string[]> = {
+  "🎥 Cine modo crítica": ["🍿 Balde de pochoclos XXL", "🥤 Gaseosa tamaño sospechoso", "🍫 Chocolate escondido", "🌭 Panchito de película", "🧀 Nachos anti glamour", "🍦 Helado post créditos"],
+  "☕ Merienda chismosa": ["🥐 Medialunas serias", "🍰 Torta para compartir o no", "☕ Café con espuma ridícula", "🧉 Mate con facturas", "🥞 Pancakes dramáticos", "🍪 Cookies nivel abuela"],
+  "🌅 Paseo con cara de turistas": ["🥪 Sanguchitos de picnic", "🧃 Jugo como excursión escolar", "🍓 Frutillas aesthetic", "🥨 Algo para caminar y masticar", "🍦 Helado obligatorio", "🧀 Picadita portátil"],
+  "🎳 Bowling sin dignidad": ["🍔 Hamburguesas de campeón", "🍟 Papas para culpar", "🍕 Pizza entre turnos", "🥤 Licuado de concentración", "🌮 Tacos anti strike", "🍗 Nuggets motivacionales"],
+  "🎮 Arcade competitivo": ["🍕 Pizza gamer", "🍜 Ramen de jefe final", "🍔 Combo desbloqueable", "🧋 Bubble tea de energía", "🍫 Snacks para sobornar", "🌭 Panchos pixelados"],
+  "🎤 Karaoke vergonzoso": ["🍹 Trago sin afinación", "🍟 Papas para el pánico", "🍕 Pizza para el público", "🍣 Sushi de diva", "🥟 Empanaditas de backstage", "🍰 Postre para olvidar"],
+  "🎨 Sorpresa absurda": ["🎲 Lo que diga una moneda", "🥡 Delivery misterioso", "🍝 Pastas dramáticas", "🌮 Tacos de plot twist", "🍣 Sushi sorpresa", "🥗 Algo liviano para fingir control"],
+  "🐾 Plan con mascotas": ["🦴 Snacks para el perrito", "🐟 Algo aprobado por michis", "🍕 Pizza humana", "🥐 Merienda de paseo", "🍦 Helado con supervisión canina", "🥩 Parrillita feliz"],
+};
+
+const stepTitles = ["Invitación", "Celebración", "Fecha", "Plan", "Opciones", "Detalle", "Cita"];
 
 const initialData: InvitationData = {
   date: "",
@@ -49,9 +59,10 @@ export default function InvitationApp() {
   const progress = ((step + 1) / stepTitles.length) * 100;
   const yesScale = 1 + Math.min(noAttempts, 7) * 0.08;
   const noScale = Math.max(0.45, 1 - noAttempts * 0.08);
+  const currentFoodOptions = data.plan ? planFoodOptions[data.plan] : [];
 
   const summaryText = useMemo(() => {
-    return `Hola ❤️\n\nAceptaste salir conmigo 😊\n\n📅 Fecha: ${formatDate(data.date)}\n\n🕒 Hora: ${data.time || "A confirmar"}\n\n🍽️ Comida: ${data.food.join(", ") || "A elegir"}\n\n🎯 Plan: ${data.plan || "A elegir"}\n\n📝 Comentarios: ${data.comments || "Sin comentarios"}\n\n¡Nos vemos pronto! 💕`;
+    return `Hola 🐶🐱\n\nAceptaste salir conmigo, quedó registrado por el comité de mascotas 😊\n\n📅 Fecha: ${formatDate(data.date)}\n\n🕒 Hora: ${data.time || "A confirmar"}\n\n🎯 Plan: ${data.plan || "A elegir"}\n\n🍽️ Opciones elegidas: ${data.food.join(", ") || "A elegir"}\n\n📝 Comentarios: ${data.comments || "Sin comentarios"}\n\nNos vemos pronto. Llevo buena onda y cero dignidad 💅`;
   }, [data]);
 
   useEffect(() => {
@@ -111,7 +122,7 @@ export default function InvitationApp() {
 
   function startMusic() {
     const context = new AudioContext();
-    const notes = [392, 493.88, 587.33, 659.25, 587.33, 493.88];
+    const notes = [261.63, 329.63, 392, 523.25, 392, 329.63];
     audioRef.current = context;
     notes.forEach((note, index) => playSoftNote(context, note, index * 0.42));
     intervalRef.current = window.setInterval(() => {
@@ -152,8 +163,8 @@ export default function InvitationApp() {
 
   return (
     <main className={darkMode ? "dark" : ""}>
-      <div className="relative min-h-screen overflow-hidden bg-[#fff7fb] px-4 py-5 text-[#4a1426] transition-colors duration-700 dark:bg-[#190711] dark:text-[#ffe7f1] sm:px-6">
-        <RomanticBackground darkMode={darkMode} />
+      <div className="relative min-h-screen overflow-hidden bg-[#fffaf1] px-4 py-5 text-[#3b2415] transition-colors duration-700 dark:bg-[#111827] dark:text-[#fff7ed] sm:px-6">
+        <FunnyBackground darkMode={darkMode} />
         <TopBar
           darkMode={darkMode}
           isMusicPlaying={isMusicPlaying}
@@ -169,9 +180,9 @@ export default function InvitationApp() {
             {step === 0 && (
               <Screen key="intro">
                 <div className="mx-auto max-w-xl text-center">
-                  <EmojiBadge>💌</EmojiBadge>
+                  <EmojiBadge>🐶</EmojiBadge>
                   <h1 className="mt-6 text-4xl font-black tracking-tight text-rose-950 dark:text-rose-50 sm:text-6xl">¿Te gustaría salir conmigo?</h1>
-                  <p className="mx-auto mt-4 max-w-md text-base leading-7 text-rose-700 dark:text-rose-200 sm:text-lg">Prometo una cita linda, cero presión y al menos una anécdota para reírnos.</p>
+                  <p className="mx-auto mt-4 max-w-md text-base leading-7 text-amber-800 dark:text-orange-100 sm:text-lg">Prometo una salida con buen humor, comentarios innecesarios y energía de perrito que vio una pelota.</p>
                   <motion.p animate={{ scale: [1, 1.04, 1] }} className="mt-7 min-h-7 text-sm font-bold text-red-400 sm:text-base">
                     {funnyMessage}
                   </motion.p>
@@ -181,9 +192,9 @@ export default function InvitationApp() {
                       whileTap={{ scale: yesScale - 0.04 }}
                       animate={{ scale: yesScale }}
                       onClick={acceptInvitation}
-                      className="rounded-full bg-gradient-to-r from-rose-400 to-red-400 px-9 py-4 text-lg font-black text-white shadow-2xl shadow-rose-300/60 transition hover:brightness-105 dark:shadow-red-950/50"
+                      className="rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-9 py-4 text-lg font-black text-white shadow-2xl shadow-amber-300/60 transition hover:brightness-105 dark:shadow-orange-950/50"
                     >
-                      Sí ❤️
+                      Sí, obvio 🐾
                     </motion.button>
                     <motion.button
                       onMouseEnter={escapeNoButton}
@@ -192,9 +203,9 @@ export default function InvitationApp() {
                       onClick={escapeNoButton}
                       animate={{ x: noPosition.x, y: noPosition.y, scale: noScale, rotate: noAttempts % 2 ? -6 : 6 }}
                       transition={{ type: "spring", stiffness: 260, damping: 16 }}
-                      className="rounded-full border border-rose-200 bg-white/80 px-8 py-4 text-lg font-extrabold text-rose-500 shadow-xl shadow-rose-200/60 backdrop-blur transition dark:border-rose-800 dark:bg-white/10 dark:text-rose-100"
+                      className="rounded-full border border-amber-200 bg-white/80 px-8 py-4 text-lg font-extrabold text-orange-600 shadow-xl shadow-amber-200/60 backdrop-blur transition dark:border-orange-800 dark:bg-white/10 dark:text-orange-100"
                     >
-                      No 😅
+                      No, miau 😅
                     </motion.button>
                   </div>
                 </div>
@@ -204,10 +215,10 @@ export default function InvitationApp() {
             {step === 1 && (
               <Screen key="yes">
                 <Card className="text-center">
-                  <EmojiBadge>🎉</EmojiBadge>
+                  <EmojiBadge>🐱</EmojiBadge>
                   <h2 className="mt-6 text-3xl font-black sm:text-5xl">¡Sabía que dirías que sí!</h2>
-                  <p className="mx-auto mt-4 max-w-md text-lg leading-8 text-rose-700 dark:text-rose-200">Tenía preparado todo un discurso por si me rechazabas 😅</p>
-                  <PrimaryButton onClick={nextStep}>Continuar ❤️</PrimaryButton>
+                  <p className="mx-auto mt-4 max-w-md text-lg leading-8 text-amber-800 dark:text-orange-100">Ya estaba por mandarte un PowerPoint con gatitos tristes, menos mal que no hizo falta.</p>
+                  <PrimaryButton onClick={nextStep}>Continuar 🐾</PrimaryButton>
                 </Card>
               </Screen>
             )}
@@ -231,23 +242,25 @@ export default function InvitationApp() {
             )}
 
             {step === 3 && (
-              <Screen key="food">
+              <Screen key="plan">
                 <Card>
-                  <EmojiBadge>🍽️</EmojiBadge>
-                  <h2 className="mt-6 text-center text-3xl font-black sm:text-5xl">¿Qué te gustaría comer?</h2>
-                  <OptionGrid options={foodOptions} selected={data.food} onSelect={toggleFood} multiple />
-                  <PrimaryButton disabled={data.food.length === 0} onClick={nextStep}>Continuar</PrimaryButton>
+                  <EmojiBadge>🎲</EmojiBadge>
+                  <h2 className="mt-6 text-center text-3xl font-black sm:text-5xl">Primero elegí el caos</h2>
+                  <p className="mx-auto mt-3 max-w-lg text-center text-amber-800 dark:text-orange-100">Según el plan, aparecen opciones distintas. Tecnología de punta y un perro administrativo.</p>
+                  <OptionGrid options={planOptions} selected={data.plan ? [data.plan] : []} onSelect={(option) => updateData({ plan: option, food: [] })} />
+                  <PrimaryButton disabled={!data.plan} onClick={nextStep}>Continuar</PrimaryButton>
                 </Card>
               </Screen>
             )}
 
             {step === 4 && (
-              <Screen key="plan">
+              <Screen key="food">
                 <Card>
-                  <EmojiBadge>🎬</EmojiBadge>
-                  <h2 className="mt-6 text-center text-3xl font-black sm:text-5xl">¿Qué plan te gusta más?</h2>
-                  <OptionGrid options={planOptions} selected={data.plan ? [data.plan] : []} onSelect={(option) => updateData({ plan: option })} />
-                  <PrimaryButton disabled={!data.plan} onClick={nextStep}>Continuar</PrimaryButton>
+                  <EmojiBadge>🍿</EmojiBadge>
+                  <h2 className="mt-6 text-center text-3xl font-black sm:text-5xl">Opciones para este plan</h2>
+                  <p className="mx-auto mt-3 max-w-lg text-center text-amber-800 dark:text-orange-100">Plan elegido: <span className="font-black">{data.plan}</span></p>
+                  <OptionGrid options={currentFoodOptions} selected={data.food} onSelect={toggleFood} multiple />
+                  <PrimaryButton disabled={data.food.length === 0} onClick={nextStep}>Continuar</PrimaryButton>
                 </Card>
               </Screen>
             )}
@@ -255,10 +268,10 @@ export default function InvitationApp() {
             {step === 5 && (
               <Screen key="detail">
                 <Card>
-                  <EmojiBadge>💕</EmojiBadge>
+                  <EmojiBadge>🦴</EmojiBadge>
                   <h2 className="mt-6 text-center text-3xl font-black sm:text-5xl">Un último detalle...</h2>
                   <Field label="¿Hay algo que te gustaría hacer ese día?">
-                    <textarea value={data.comments} onChange={(event) => updateData({ comments: event.target.value })} className="input min-h-36 resize-none" placeholder="Podés dejarme una pista, una condición o una idea sorpresa..." />
+                    <textarea value={data.comments} onChange={(event) => updateData({ comments: event.target.value })} className="input min-h-36 resize-none" placeholder="Ej: quiero postre, no me hagas caminar 40 cuadras, llevá chistes mejores..." />
                   </Field>
                   <PrimaryButton onClick={nextStep}>Finalizar</PrimaryButton>
                 </Card>
@@ -268,18 +281,18 @@ export default function InvitationApp() {
             {step === 6 && (
               <Screen key="final">
                 <Card className="text-center">
-                  <EmojiBadge>❤️</EmojiBadge>
-                  <h2 className="mt-6 text-4xl font-black sm:text-6xl">¡Es una cita! ❤️</h2>
+                  <EmojiBadge>🐾</EmojiBadge>
+                  <h2 className="mt-6 text-4xl font-black sm:text-6xl">¡Es una cita! 🐶</h2>
                   <div className="mt-8 grid gap-3 text-left text-sm sm:text-base">
                     <SummaryRow label="📅 Fecha elegida" value={formatDate(data.date)} />
                     <SummaryRow label="🕒 Hora elegida" value={data.time || "A confirmar"} />
-                    <SummaryRow label="🍽️ Comida elegida" value={data.food.join(", ") || "A elegir"} />
                     <SummaryRow label="🎯 Plan elegido" value={data.plan || "A elegir"} />
+                    <SummaryRow label="🍽️ Opciones elegidas" value={data.food.join(", ") || "A elegir"} />
                     <SummaryRow label="📝 Comentarios" value={data.comments || "Sin comentarios"} />
                   </div>
-                  <p className="mx-auto mt-7 max-w-md text-lg font-bold leading-8 text-red-400">Ahora ya no tenés excusa para cancelarme 😌❤️</p>
+                  <p className="mx-auto mt-7 max-w-md text-lg font-bold leading-8 text-orange-500">Contrato verbal firmado por un perro imaginario. Cancelar requiere presentar certificado de michi gruñón.</p>
                   <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                    <SecondaryButton onClick={copyInvitation}>{copied ? "Copiado ❤️" : "Copiar invitación"}</SecondaryButton>
+                    <SecondaryButton onClick={copyInvitation}>{copied ? "Copiado 🐾" : "Copiar invitación"}</SecondaryButton>
                     <PrimaryButton compact onClick={shareWhatsApp}>Compartir por WhatsApp</PrimaryButton>
                   </div>
                 </Card>
@@ -294,42 +307,43 @@ export default function InvitationApp() {
 
 function TopBar({ darkMode, isMusicPlaying, progress, step, onToggleDark, onToggleMusic }: { darkMode: boolean; isMusicPlaying: boolean; progress: number; step: number; onToggleDark: () => void; onToggleMusic: () => void }) {
   return (
-    <header className="relative z-20 mx-auto max-w-5xl rounded-[2rem] border border-white/60 bg-white/60 p-3 shadow-xl shadow-rose-200/50 backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/30">
+    <header className="relative z-20 mx-auto max-w-5xl rounded-[2rem] border border-white/70 bg-white/65 p-3 shadow-xl shadow-amber-200/50 backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/30">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-rose-400">Invitación Especial</p>
-          <p className="mt-1 text-sm font-bold text-rose-950 dark:text-rose-50">{stepTitles[step]}</p>
+          <p className="text-xs font-black uppercase tracking-[0.28em] text-orange-400">Invitación Especial</p>
+          <p className="mt-1 text-sm font-bold text-amber-950 dark:text-orange-50">{stepTitles[step]}</p>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={onToggleMusic} className="control-button" aria-label="Activar o pausar música">{isMusicPlaying ? "Pausar ♪" : "Play ♪"}</button>
           <button onClick={onToggleDark} className="control-button" aria-label="Cambiar modo de color">{darkMode ? "Luz" : "Noche"}</button>
         </div>
       </div>
-      <div className="mt-3 h-2 overflow-hidden rounded-full bg-rose-100 dark:bg-white/10">
-        <motion.div animate={{ width: `${progress}%` }} className="h-full rounded-full bg-gradient-to-r from-pink-300 via-rose-400 to-red-400" />
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-amber-100 dark:bg-white/10">
+        <motion.div animate={{ width: `${progress}%` }} className="h-full rounded-full bg-gradient-to-r from-yellow-300 via-orange-400 to-rose-400" />
       </div>
     </header>
   );
 }
 
-function RomanticBackground({ darkMode }: { darkMode: boolean }) {
+function FunnyBackground({ darkMode }: { darkMode: boolean }) {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-pink-200/70 blur-3xl dark:bg-red-900/30" />
-      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-red-100/90 blur-3xl dark:bg-pink-950/40" />
+      <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-yellow-200/70 blur-3xl dark:bg-orange-900/30" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-orange-100/90 blur-3xl dark:bg-amber-950/40" />
+      <div className="absolute -left-24 bottom-16 h-72 w-72 rounded-full bg-pink-100/80 blur-3xl dark:bg-slate-700/30" />
       {Array.from({ length: 26 }).map((_, index) => (
         <span
           key={index}
-          className="floating-heart absolute text-lg opacity-60"
+          className="floating-critter absolute text-lg opacity-60"
           style={{
             left: `${(index * 37) % 100}%`,
             bottom: `-${10 + (index % 7) * 8}%`,
             animationDuration: `${9 + (index % 8)}s`,
             animationDelay: `${(index % 10) * 0.8}s`,
-            filter: darkMode ? "drop-shadow(0 0 10px rgba(244, 114, 182, 0.35))" : "none",
+            filter: darkMode ? "drop-shadow(0 0 10px rgba(251, 146, 60, 0.35))" : "none",
           }}
         >
-          {index % 3 === 0 ? "💕" : index % 3 === 1 ? "❤️" : "💗"}
+          {["🐶", "🐱", "🐾", "🦴", "🧶", "🍿"][index % 6]}
         </span>
       ))}
     </div>
@@ -352,7 +366,7 @@ function CelebrationBurst() {
           transition={{ duration: 1.25, ease: "easeOut" }}
           className="absolute text-2xl sm:text-4xl"
         >
-          {index % 4 === 0 ? "🎉" : index % 4 === 1 ? "❤️" : index % 4 === 2 ? "💕" : "✨"}
+          {index % 5 === 0 ? "🎉" : index % 5 === 1 ? "🐶" : index % 5 === 2 ? "🐱" : index % 5 === 3 ? "🐾" : "✨"}
         </motion.span>
       ))}
     </motion.div>
@@ -368,17 +382,17 @@ function Screen({ children }: { children: React.ReactNode }) {
 }
 
 function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`mx-auto w-full max-w-2xl rounded-[2.2rem] border border-white/70 bg-white/75 p-6 shadow-2xl shadow-rose-200/70 backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/30 sm:p-10 ${className}`}>{children}</div>;
+  return <div className={`mx-auto w-full max-w-2xl rounded-[2.2rem] border border-white/70 bg-white/78 p-6 shadow-2xl shadow-amber-200/70 backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/30 sm:p-10 ${className}`}>{children}</div>;
 }
 
 function EmojiBadge({ children }: { children: React.ReactNode }) {
-  return <motion.div animate={{ y: [0, -8, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="mx-auto grid h-24 w-24 place-items-center rounded-[2rem] bg-white text-5xl shadow-2xl shadow-rose-200/70 dark:bg-white/10 dark:shadow-black/30">{children}</motion.div>;
+  return <motion.div animate={{ y: [0, -8, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="mx-auto grid h-24 w-24 place-items-center rounded-[2rem] bg-white text-5xl shadow-2xl shadow-amber-200/70 dark:bg-white/10 dark:shadow-black/30">{children}</motion.div>;
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="mt-6 block text-left">
-      <span className="mb-2 block text-sm font-black uppercase tracking-[0.16em] text-rose-400">{label}</span>
+      <span className="mb-2 block text-sm font-black uppercase tracking-[0.16em] text-orange-400">{label}</span>
       {children}
     </label>
   );
@@ -396,11 +410,11 @@ function OptionGrid({ options, selected, multiple = false, onSelect }: { options
             whileTap={{ scale: 0.96 }}
             animate={{ scale: active ? 1.04 : 1 }}
             onClick={() => onSelect(option)}
-            className={`min-h-24 rounded-[1.4rem] border p-3 text-center text-sm font-black shadow-lg transition sm:text-base ${active ? "border-rose-400 bg-rose-100 text-rose-700 shadow-rose-300/60 dark:border-pink-300 dark:bg-pink-400/20 dark:text-rose-50" : "border-white/70 bg-white/70 text-rose-950 shadow-rose-100/70 hover:border-rose-200 dark:border-white/10 dark:bg-white/10 dark:text-rose-50"}`}
+            className={`min-h-24 rounded-[1.4rem] border p-3 text-center text-sm font-black shadow-lg transition sm:text-base ${active ? "border-orange-400 bg-amber-100 text-orange-800 shadow-amber-300/60 dark:border-orange-300 dark:bg-orange-400/20 dark:text-orange-50" : "border-white/70 bg-white/70 text-amber-950 shadow-amber-100/70 hover:border-amber-200 dark:border-white/10 dark:bg-white/10 dark:text-orange-50"}`}
             aria-pressed={active}
           >
             {option}
-            {multiple && active ? <span className="mt-2 block text-xs text-rose-500 dark:text-pink-200">Elegido</span> : null}
+            {multiple && active ? <span className="mt-2 block text-xs text-orange-500 dark:text-orange-200">Elegido por decreto</span> : null}
           </motion.button>
         );
       })}
@@ -410,21 +424,21 @@ function OptionGrid({ options, selected, multiple = false, onSelect }: { options
 
 function PrimaryButton({ children, onClick, disabled = false, compact = false }: { children: React.ReactNode; onClick: () => void; disabled?: boolean; compact?: boolean }) {
   return (
-    <motion.button whileHover={disabled ? undefined : { scale: 1.03 }} whileTap={disabled ? undefined : { scale: 0.97 }} disabled={disabled} onClick={onClick} className={`mt-8 w-full rounded-full bg-gradient-to-r from-rose-400 to-red-400 font-black text-white shadow-xl shadow-rose-300/60 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-45 dark:shadow-red-950/40 ${compact ? "px-5 py-4" : "px-8 py-4 text-lg"}`}>
+    <motion.button whileHover={disabled ? undefined : { scale: 1.03 }} whileTap={disabled ? undefined : { scale: 0.97 }} disabled={disabled} onClick={onClick} className={`mt-8 w-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500 font-black text-white shadow-xl shadow-amber-300/60 transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-45 dark:shadow-orange-950/40 ${compact ? "px-5 py-4" : "px-8 py-4 text-lg"}`}>
       {children}
     </motion.button>
   );
 }
 
 function SecondaryButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
-  return <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={onClick} className="mt-8 w-full rounded-full border border-rose-200 bg-white/75 px-5 py-4 font-black text-rose-600 shadow-xl shadow-rose-200/50 transition hover:bg-rose-50 dark:border-white/10 dark:bg-white/10 dark:text-rose-100 dark:hover:bg-white/15">{children}</motion.button>;
+  return <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={onClick} className="mt-8 w-full rounded-full border border-amber-200 bg-white/75 px-5 py-4 font-black text-orange-600 shadow-xl shadow-amber-200/50 transition hover:bg-amber-50 dark:border-white/10 dark:bg-white/10 dark:text-orange-100 dark:hover:bg-white/15">{children}</motion.button>;
 }
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-3xl border border-rose-100 bg-white/70 p-4 shadow-lg shadow-rose-100/50 dark:border-white/10 dark:bg-white/10 dark:shadow-black/10">
-      <p className="font-black text-rose-500 dark:text-pink-200">{label}</p>
-      <p className="mt-1 break-words text-rose-950 dark:text-rose-50">{value}</p>
+    <div className="rounded-3xl border border-amber-100 bg-white/70 p-4 shadow-lg shadow-amber-100/50 dark:border-white/10 dark:bg-white/10 dark:shadow-black/10">
+      <p className="font-black text-orange-500 dark:text-orange-200">{label}</p>
+      <p className="mt-1 break-words text-amber-950 dark:text-orange-50">{value}</p>
     </div>
   );
 }
