@@ -20,7 +20,7 @@ const funnyMessages = [
   "El botón No se fue a comprar churros 😌",
 ];
 
-const planOptions = ["🎥 Cine modo crítica", "☕ Merienda chismosa", "🌅 Paseo con cara de turistas", "🎳 Bowling sin dignidad", "🎮 Arcade competitivo", "🎤 Karaoke vergonzoso", "🎨 Sorpresa absurda", "🐾 Plan con mascotas"];
+const planOptions = ["🎥 Cine modo crítica", "☕ Merienda chismosa", "🍷 Cena con charla larga", "🌅 Paseo con cara de turistas", "🎳 Bowling sin dignidad", "🎮 Arcade competitivo", "🎤 Karaoke vergonzoso", "🐾 Plan con mascotas"];
 
 const planFoodOptions: Record<string, string[]> = {
   "🎥 Cine modo crítica": ["🍿 Balde de pochoclos XXL", "🥤 Gaseosa tamaño sospechoso", "🍫 Chocolate escondido", "🌭 Panchito de película", "🧀 Nachos anti glamour", "🍦 Helado post créditos"],
@@ -29,7 +29,7 @@ const planFoodOptions: Record<string, string[]> = {
   "🎳 Bowling sin dignidad": ["🍔 Hamburguesas de campeón", "🍟 Papas para culpar", "🍕 Pizza entre turnos", "🥤 Licuado de concentración", "🌮 Tacos anti strike", "🍗 Nuggets motivacionales"],
   "🎮 Arcade competitivo": ["🍕 Pizza gamer", "🍜 Ramen de jefe final", "🍔 Combo desbloqueable", "🧋 Bubble tea de energía", "🍫 Snacks para sobornar", "🌭 Panchos pixelados"],
   "🎤 Karaoke vergonzoso": ["🍹 Trago sin afinación", "🍟 Papas para el pánico", "🍕 Pizza para el público", "🍣 Sushi de diva", "🥟 Empanaditas de backstage", "🍰 Postre para olvidar"],
-  "🎨 Sorpresa absurda": ["🎲 Lo que diga una moneda", "🥡 Delivery misterioso", "🍝 Pastas dramáticas", "🌮 Tacos de plot twist", "🍣 Sushi sorpresa", "🥗 Algo liviano para fingir control"],
+  "🍷 Cena con charla larga": ["🍝 Pastas con debate profundo", "🍣 Sushi elegante", "🥩 Parrillita seria", "🍕 Pizza sin juzgar", "🌮 Tacos con servilletas de más", "🍰 Postre obligatorio"],
   "🐾 Plan con mascotas": ["🦴 Snacks para el perrito", "🐟 Algo aprobado por michis", "🍕 Pizza humana", "🥐 Merienda de paseo", "🍦 Helado con supervisión canina", "🥩 Parrillita feliz"],
 };
 
