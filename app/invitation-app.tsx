@@ -194,7 +194,7 @@ export default function InvitationApp() {
                       onClick={acceptInvitation}
                       className="rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-9 py-4 text-lg font-black text-white shadow-2xl shadow-amber-300/60 transition hover:brightness-105 dark:shadow-orange-950/50"
                     >
-                      Sí, obvio 🐾
+                      Sí
                     </motion.button>
                     <motion.button
                       onMouseEnter={escapeNoButton}
@@ -205,7 +205,7 @@ export default function InvitationApp() {
                       transition={{ type: "spring", stiffness: 260, damping: 16 }}
                       className="rounded-full border border-amber-200 bg-white/80 px-8 py-4 text-lg font-extrabold text-orange-600 shadow-xl shadow-amber-200/60 backdrop-blur transition dark:border-orange-800 dark:bg-white/10 dark:text-orange-100"
                     >
-                      No, miau 😅
+                      No
                     </motion.button>
                   </div>
                 </div>
